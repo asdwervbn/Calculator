@@ -2,7 +2,7 @@ import java.util.Stack;
 
 public class Main {
 
-    private static String[] op = { "+", "-", "*", "/" };// Operation set
+	private static String[] op = { "+", "-", "*", "/" };// Operation set
     public static void main(String[] args) {
         String question = MakeFormula();
         System.out.println(question);
@@ -26,8 +26,8 @@ public class Main {
     }
 
     public static String Solve(String formula){
-        Stack<String> tempStack = new Stack<>();//Store number or operator
-        Stack<Character> operatorStack = new Stack<>();//Store operator
+        Stack<String> tempStack = new Stack<String>();//Store number or operator
+        Stack<Character> operatorStack = new Stack<Character>();//Store operator
         int len = formula.length();
         int k = 0;
         for(int j = -1; j < len - 1; j++){
@@ -59,7 +59,7 @@ public class Main {
         while (!operatorStack.empty()){ // Append remaining operators
             tempStack.push(operatorStack.pop().toString());
         }
-        Stack<String> calcStack = new Stack<>();
+        Stack<String> calcStack = new Stack<String>();
         for(String peekChar : tempStack){ // Reverse traversing of stack
             if(!peekChar.equals("+") && !peekChar.equals("-") && !peekChar.equals("/") && !peekChar.equals("*")) {
                 calcStack.push(peekChar); // Push number to stack
@@ -72,20 +72,16 @@ public class Main {
                 if(!calcStack.empty()){
                     a1 = Integer.parseInt(calcStack.pop());
                 }
-                switch (peekChar) {
-                    case "+":
-                        calcStack.push(String.valueOf(a1 + b1));
-                        break;
-                    case "-":
-                        calcStack.push(String.valueOf(a1 - b1));
-                        break;
-                    case "*":
-                        calcStack.push(String.valueOf(a1 * b1));
-                        break;
-                    default:
-                        calcStack.push(String.valueOf(a1 / b1));
-                        break;
-                }
+                if(peekChar.equals("+"))
+                	calcStack.push(String.valueOf(a1 + b1));
+                else if (peekChar.equals("-")) {
+					calcStack.push(String.valueOf(a1 - b1));
+				}
+                else if (peekChar.equals("*")) {
+					calcStack.push(String.valueOf(a1 * b1));
+				}
+                else
+                	calcStack.push(String.valueOf(a1 / b1));
             }
         }
         return formula + "=" + calcStack.pop();
